@@ -3,24 +3,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
         #container{width:1500px}
-        #header {background-color: darkslategray;height: 130px;font-size: 16px;}
+        #header {background-color: darkslategray;height: 100px;font-size: 16px;}
         #footer2 {background-color: lightslategrey;height: 100px;clear:both;text-align:center;}
     </style>
 <body>
 
-  <script src="https://unpkg.com/vue"></script>
-
-  <!-- 还是使用 jquery 发起ajax json请求 -->
+  <script src="https://unpkg.com/vue"></script>  <!-- 还是使用 jquery 发起ajax json请求 -->
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
   <div id="header" >
           <br/>
-          <h1 style="color: aliceblue;text-align: center">电影榜单</h1>
+          <h1 style="color: aliceblue;text-align: center">TOP20</h1>
       </div>
   <ul id="example-1">
-
-
       <template v-for="n in len">  <!--采用 template 模板进行群体渲染下面的所有内容 -->
         <div id="mainContent">
+          <br/>
             	<div class="box">
                 	<div><img :src="images[n-1]"></div>
                     <div class="boxTitle"> <a href>  第 {{n}} 位 {{ titles[n-1] }}  </a></div>
@@ -47,7 +44,7 @@
 
     //还是使用 jquery 发起ajax json请求
     // 从 json2/复制的getJSON脚本
-    url = "json2/JsonDoubanAction.json";
+    url = "json/top.json";
 
     $.getJSON(url, parse_data);
 
