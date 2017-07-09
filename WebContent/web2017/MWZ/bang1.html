@@ -1,0 +1,87 @@
+<html>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+        #container{width:1500px}
+        #header {background-color: darkslategray;height: 130px;font-size: 16px;}
+        #footer2 {background-color: lightslategrey;height: 100px;clear:both;text-align:center;}
+    </style>
+<body>
+
+  <script src="https://unpkg.com/vue"></script>
+
+  <!-- 还是使用 jquery 发起ajax json请求 -->
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <div id="header" >
+          <br/>
+          <h1 style="color: aliceblue;text-align: center">电影榜单</h1>
+      </div>
+  <ul id="example-1">
+
+
+      <template v-for="n in len">  <!--采用 template 模板进行群体渲染下面的所有内容 -->
+        <div id="mainContent">
+            	<div class="box">
+                	<div><img :src="images[n-1]"></div>
+                    <div class="boxTitle"> <a href>  第 {{n}} 位 {{ titles[n-1] }}  </a></div>
+                    <div class="boxPrice"><a href>   上映年份{{ years[n-1] }}  </a></div>
+                    <div class="boxPrice"><a href> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{ average[n-1] }}  </a></div>
+                </div>
+                </div>
+    </template>
+
+
+
+  </ul>
+  <div id="footer2" align="center">
+
+
+  </div>
+  <!-- 注意 id="example-1" 的覆盖范围 -->
+
+  <script>
+    // script 脚本执行要在 <ul id="example-1"> 标签定义后, 否则会报错误找不到 example-1
+
+
+    var MYDATA = {} //定义全局变量 MYDATA
+
+    //还是使用 jquery 发起ajax json请求
+    // 从 json2/复制的getJSON脚本
+    url = "json2/JsonDoubanAction.json";
+
+    $.getJSON(url, parse_data);
+
+    function parse_data(doubanjson) {
+
+      MYDATA = doubanjson; //将数据复制到全局变量 mydata 中, 便于在console中调试
+      console.log(doubanjson)
+
+      // 从 MYDATA 提取
+      var titles = []
+      var images = []
+      var years  = []
+      var average= []
+      for (var i = 0; i < MYDATA.length; i++) {
+        titles[i] = MYDATA[i].original_title;
+        images[i] = MYDATA[i].images.small;
+        years[i]  = MYDATA[i].year;
+        average[i] = MYDATA[i].rating.average;
+      }
+
+      // 使用  vue 绑定模板
+      var example1 = new Vue({
+        el: '#example-1',
+        data: {
+          len: MYDATA.length,
+          titles: titles,
+          images: images,
+          years: years,
+          average:average,
+        }
+      })
+    }
+  </script>
+
+</body>
+
+</html>
